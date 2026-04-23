@@ -46,11 +46,17 @@ Plain markdown or txt in `inbox/text/`. Fastest path — straight to `skill-auth
 ## Install targets
 
 The `skill-installer` agent resolves one of:
-- **Plugin** — `<plugin-root>/skills/<skill-name>/SKILL.md`
+- **Plugin** — `<plugin-root>/skills/<skill-name>/SKILL.md` (looked up via cached marketplace indexes)
 - **Repo** — `<repo>/.claude/skills/<skill-name>/SKILL.md`
 - **User-level** — `~/.claude/skills/<skill-name>/SKILL.md`
 
 Target is specified in the spec frontmatter (`install_target:`) or chosen interactively.
+
+## Marketplace config
+
+Copy `.env.example` → `.env` and fill in URLs + local paths for your public and private plugin marketplaces. Then run `/refresh-indexes` (or `python3 scripts/refresh_indexes.py`) to cache the plugin/skill indexes to `~/.local/share/claude-skill-definer/` (override via `CSD_DATA_DIR`). The installer reads these caches to resolve `plugin:<name>` targets.
+
+Sanity check with `python3 scripts/csd_config.py check`.
 
 ## Typical flow
 

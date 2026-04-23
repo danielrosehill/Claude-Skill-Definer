@@ -13,7 +13,14 @@ You copy a staged skill to its final home and verify it.
 2. Resolve target:
    - `user` → `~/.claude/skills/<name>/`
    - `repo:<path>` → `<path>/.claude/skills/<name>/`
-   - `plugin:<plugin-name>` → locate plugin root (search `~/repos/github/my-repos/` and `~/.claude/plugins/`), then `<root>/skills/<name>/`
+   - `plugin:<plugin-name>` → look up in the cached marketplace indexes at
+     `$CSD_DATA_DIR/public-index.json` and `private-index.json` (default
+     `~/.local/share/claude-skill-definer/`). Match by plugin `name` or `dir`.
+     The index record has a `root` (marketplace path) — the plugin lives at
+     `<root>/<plugin.dir>/skills/<skill-name>/`.
+   - If the indexes are stale or the plugin isn't found, run `/refresh-indexes`
+     (or `python3 scripts/refresh_indexes.py`) and retry. Only fall back to
+     filesystem search if the indexes are empty/unconfigured.
 
 3. Confirm target parent exists. If not, ask before creating (plugins especially — wrong path is hard to undo).
 

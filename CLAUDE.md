@@ -49,11 +49,28 @@ Description quality matters most — it's what the harness matches against to de
 ## Install targets
 
 Resolve from spec frontmatter `install_target:`:
-- `plugin:<plugin-name>` → find plugin root, write to `<root>/skills/<name>/`
+- `plugin:<plugin-name>` → look up in cached marketplace indexes (see below), write to `<marketplace-root>/<plugin-dir>/skills/<name>/`
 - `repo:<path>` → write to `<path>/.claude/skills/<name>/`
 - `user` → write to `~/.claude/skills/<name>/`
 
 After install, verify by listing the target dir and confirming the SKILL.md parses (frontmatter valid, name matches dir).
+
+## Marketplace config & indexes
+
+The workspace reads marketplace locations from env vars (or a gitignored `.env` copied from `.env.example`):
+
+- `CSD_PUBLIC_MARKETPLACE_URL` + `CSD_PUBLIC_MARKETPLACE_PATH` — Daniel's public plugin marketplace (repo URL + local clone)
+- `CSD_PRIVATE_MARKETPLACE_URL` + `CSD_PRIVATE_MARKETPLACE_PATH` — private equivalent
+- `CSD_DATA_DIR` — cache dir (default `~/.local/share/claude-skill-definer/`)
+
+Cached indexes live **outside** the repo at:
+- `$CSD_DATA_DIR/public-index.json`
+- `$CSD_DATA_DIR/private-index.json`
+- `$CSD_DATA_DIR/state.json` (last refresh timestamp)
+
+Each index lists plugins in that marketplace with their skills, commands, agents, and disk paths — this is what `skill-installer` consults when resolving `plugin:<name>` targets.
+
+Refresh with `/refresh-indexes` (or `python3 scripts/refresh_indexes.py`) whenever a marketplace has changed. Check env config with `python3 scripts/csd_config.py check`.
 
 ## What not to do
 
