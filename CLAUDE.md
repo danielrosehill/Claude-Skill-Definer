@@ -63,6 +63,8 @@ The workspace reads marketplace locations from env vars (or a gitignored `.env` 
 - `CSD_PRIVATE_MARKETPLACE_URL` + `CSD_PRIVATE_MARKETPLACE_PATH` — private equivalent
 - `CSD_DATA_DIR` — cache dir (default `~/.local/share/claude-skill-definer/`)
 
+Marketplace shape: a marketplace repo contains `.claude-plugin/marketplace.json` listing plugins, most of which are separate GitHub repos (e.g. `danielrosehill/Claude-Filesystem-Organiser-Plugin`). The index scanner looks for each plugin's local clone as a sibling dir of the marketplace repo (same parent), falling back to `~/.claude/plugins/<short-name>/`. Inline plugins in a marketplace's `plugins/` subdir are also picked up.
+
 Cached indexes live **outside** the repo at:
 - `$CSD_DATA_DIR/public-index.json`
 - `$CSD_DATA_DIR/private-index.json`
