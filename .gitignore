@@ -1,0 +1,11 @@
+inbox/voice/*
+inbox/video/*
+inbox/images/*
+!inbox/*/.gitkeep
+inbox/video/**/frames/
+inbox/video/**/*.m4a
+inbox/video/**/downsampled*
+__pycache__/
+*.pyc
+.venv/
+.DS_Store
